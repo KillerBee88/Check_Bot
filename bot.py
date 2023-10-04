@@ -39,10 +39,7 @@ def main():
         type=int
     )
     args = arg_parser.parse_args()
-    if args.id:
-        chat_id = args.id
-    else:
-        chat_id = env.int('TG_USER_ID')
+    chat_id = args.id or env.int('TG_USER_ID')
 
     bot = telebot.TeleBot(api_token)
     logger.info(f'Bot is launched. Chat id is {chat_id}.')
@@ -56,18 +53,13 @@ def main():
     while True:
         try:
             dvmn_lpoll_response = requests.get(
-                dvmn_lpoll_url,
-                headers=auth_token_header,
-                params=timestamp_param
+            dvmn_lpoll_url,
+            headers=auth_token_header,
+            params=timestamp_param
             )
-        except requests.exceptions.ReadTimeout:
-            continue
-        except requests.exceptions.ConnectionError:
-            continue
-        try:
             dvmn_lpoll_response.raise_for_status()
-        except requests.HTTPError as err:
-            logger.error('Бот не получил ответ от сервера.')
+        except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError, requests.HTTPError) as err:
+            logger.error('Ошибка при выполнении запроса к серверу.')
             logger.exception(err)
 
         reviews = dvmn_lpoll_response.json()
