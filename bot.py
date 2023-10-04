@@ -22,7 +22,7 @@ class TGLogsHandler(logging.Handler):
 def main():
     env = Env()
     env.read_env()
-    api_token = env.str("BOT_TOKEN")
+    api_token = env.str("TELEGRAM_BOT_TOKEN")
     admin_id = env.int("ADMIN_CHAT_ID")
 
     logging.basicConfig(level=logging.INFO)
@@ -42,7 +42,7 @@ def main():
     if args.id:
         chat_id = args.id
     else:
-        chat_id = env.int('USER_ID')
+        chat_id = env.int('TG_USER_ID')
 
     bot = telebot.TeleBot(api_token)
     logger.info(f'Bot is launched. Chat id is {chat_id}.')
