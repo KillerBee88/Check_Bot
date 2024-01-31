@@ -36,13 +36,13 @@ def main():
     arg_parser.add_argument(
         '--id',
         help="ID чата, в который будут отправляться уведомления.",
-        type=int
+        type=int,
+        default=env.int('TG_USER_ID')
     )
     args = arg_parser.parse_args()
-    chat_id = args.id or env.int('TG_USER_ID')
 
     bot = telebot.TeleBot(api_token)
-    logger.info(f'Bot is launched. Chat id is {chat_id}.')
+    logger.info(f'Bot is launched.')
 
     dvmn_lpoll_url = "https://dvmn.org/api/long_polling/"
     auth_token_header = {
@@ -67,7 +67,7 @@ def main():
             timestamp_param['timestamp'] = reviews["timestamp_to_request"]
         elif reviews["status"] == "found":
             try:
-                send_notification(bot, chat_id, reviews)
+                send_notification(bot, admin_id, reviews)
             except requests.HTTPError or requests.ConnectionError as err:
                 logger.error(f'Error sending notification: {err}')
                 logger.exception(err)
