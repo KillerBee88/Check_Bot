@@ -53,9 +53,9 @@ def main():
     while True:
         try:
             dvmn_lpoll_response = requests.get(
-            dvmn_lpoll_url,
-            headers=auth_token_header,
-            params=timestamp_param
+                dvmn_lpoll_url,
+                headers=auth_token_header,
+                params=timestamp_param
             )
             dvmn_lpoll_response.raise_for_status()
         except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError, requests.HTTPError) as err:
