@@ -1,15 +1,17 @@
-from environs import Env
+import logging
 import textwrap as tw
 from argparse import ArgumentParser
+from typing import Union
+
 import requests
 import telebot
-import logging
+from environs import Env
 
 logger = logging.getLogger('TeleBot')
 
 
 class TGLogsHandler(logging.Handler):
-    def __init__(self, bot_token: str, chat_id: int or str):
+    def __init__(self, bot_token: str, chat_id: Union[int, str]):
         super().__init__()
         self.bot = telebot.TeleBot(bot_token)
         self.chat_id = chat_id
