@@ -45,6 +45,7 @@ def main():
 
     bot = telebot.TeleBot(api_token)
     logger.info(f'Bot is launched.')
+    logger.error('Это тестовая ошибка')
 
     dvmn_lpoll_url = "https://dvmn.org/api/long_polling/"
     auth_token_header = {
