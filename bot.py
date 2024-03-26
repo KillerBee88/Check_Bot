@@ -65,6 +65,7 @@ def main():
             logger.error('Ошибка при выполнении запроса к серверу.')
             logger.exception(err)
             time.sleep(60)
+            continue
 
         reviews = dvmn_lpoll_response.json()
         if reviews["status"] == "timeout":
