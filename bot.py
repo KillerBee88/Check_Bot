@@ -61,10 +61,18 @@ def main():
                 params=timestamp_param
             )
             dvmn_lpoll_response.raise_for_status()
-        except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError, requests.HTTPError) as err:
-            logger.error('Ошибка при выполнении запроса к серверу.')
+        except requests.exceptions.ReadTimeout as err:
+            logger.error('Клиент не дождался ответа от сервера.')
+            logger.exception(err)
+            continue
+        except requests.exceptions.ConnectionError as err:
+            logger.error('Сервер не отвечает.')
             logger.exception(err)
             time.sleep(60)
+            continue
+        except requests.HTTPError as err:
+            logger.error('Ошибка выполнения запроса.')
+            logger.exception(err)
             continue
 
         reviews = dvmn_lpoll_response.json()
