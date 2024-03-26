@@ -1,5 +1,6 @@
 import logging
 import textwrap as tw
+import time
 from argparse import ArgumentParser
 from typing import Union
 
@@ -63,6 +64,7 @@ def main():
         except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError, requests.HTTPError) as err:
             logger.error('Ошибка при выполнении запроса к серверу.')
             logger.exception(err)
+            time.sleep(60)
 
         reviews = dvmn_lpoll_response.json()
         if reviews["status"] == "timeout":
